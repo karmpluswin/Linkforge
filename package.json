@@ -1,0 +1,28 @@
+{
+  "name": "linkforge",
+  "version": "1.0.0",
+  "description": "Production-grade URL shortening and analytics platform",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "lint": "eslint src/",
+    "test": "jest --coverage"
+  },
+  "keywords": [
+    "url-shortener",
+    "analytics",
+    "nodejs",
+    "express"
+  ],
+  "author": "Karmjeet Chauhan",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
