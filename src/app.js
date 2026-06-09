@@ -8,6 +8,7 @@ const notFound = require('./middlewares/notFound');
 const config = require('./config/env');
 const authRoutes = require('./modules/auth/auth.routes');
 const urlRoutes = require('./modules/url/url.routes');
+const { redirectUrl } = require('./modules/url/redirect.controller');
 
 const app = express();
 
@@ -31,6 +32,8 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+app.get('/:shortCode', redirectUrl);
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/urls', urlRoutes);
