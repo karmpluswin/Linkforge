@@ -2,10 +2,12 @@ require('./src/config/env');
 
 const app = require('./src/app');
 const connectDB = require('./src/config/database');
+const { connectRedis } = require('./src/config/redis');
 const config = require('./src/config/env');
 
 const startServer = async () => {
   await connectDB();
+  await connectRedis();
 
   const server = app.listen(config.port, () => {
     console.log(`Server running on port ${config.port}`);
