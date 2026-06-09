@@ -9,6 +9,7 @@ const config = require('./config/env');
 const authRoutes = require('./modules/auth/auth.routes');
 const urlRoutes = require('./modules/url/url.routes');
 const { redirectUrl } = require('./modules/url/redirect.controller');
+const analyticsRoutes = require('./modules/analytics/analytics.routes');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.get('/:shortCode', redirectUrl);
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/urls', urlRoutes);
+app.use('/api/v1/analytics', analyticsRoutes);
 
 const authenticate = require('./middlewares/authenticate');
 
