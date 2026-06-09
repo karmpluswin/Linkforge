@@ -33,6 +33,12 @@ app.get('/health', (req, res) => {
 
 app.use('/api/v1/auth', authRoutes);
 
+const authenticate = require('./middlewares/authenticate');
+
+app.get('/api/v1/me', authenticate, (req, res) => {
+  res.json({ success: true, user: req.user });
+});
+
 app.use(notFound);
 app.use(errorHandler);
 
