@@ -7,6 +7,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
 const config = require('./config/env');
 const authRoutes = require('./modules/auth/auth.routes');
+const urlRoutes = require('./modules/url/url.routes');
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/urls', urlRoutes);
 
 const authenticate = require('./middlewares/authenticate');
 

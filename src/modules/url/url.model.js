@@ -42,8 +42,6 @@ const urlSchema = new mongoose.Schema(
 );
 
 urlSchema.index({ shortCode: 1 });
-urlSchema.index({ customAlias: 1 }, { sparse: true, unique: true });
-urlSchema.index({ userId: 1 });
 
 const Url = mongoose.model('Url', urlSchema);
 
