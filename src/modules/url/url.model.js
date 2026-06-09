@@ -41,7 +41,7 @@ const urlSchema = new mongoose.Schema(
   }
 );
 
-urlSchema.index({ shortCode: 1 });
+urlSchema.index({ userId: 1 });
 
 const Url = mongoose.model('Url', urlSchema);
 
