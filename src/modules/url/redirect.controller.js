@@ -1,4 +1,5 @@
 const Url = require('./url.model');
+const Analytics = require('../analytics/analytics.model');
 const { redis } = require('../../config/redis');
 const { sendError } = require('../../utils/response');
 
@@ -39,7 +40,19 @@ const redirectUrl = async (req, res, next) => {
       return sendError(res, 410, 'This link has expired');
     }
 
-    await Url.findByIdAndUpdate(urlData.id, { $inc: { clickCount: 1 } });
+    Url.findByIdAndUpdate(urlData.id, { $inc: { clickCount: 1 } }).catch((err) =>
+      console.error('Failed to increment click count:', err.message)
+    );
+
+    Analytics.create({
+      urlId: urlData.id,
+      shortCode,
+      ip: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+      userAgent: req.headers['user-agent'] || 'unknown',
+      referer: req.headers['referer'] || 'direct',
+    }).catch((err) =>
+      console.error('Failed to record analytics:', err.message)
+    );
 
     return res.redirect(302, urlData.originalUrl);
   } catch (error) {
