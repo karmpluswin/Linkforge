@@ -11,6 +11,8 @@ const urlRoutes = require('./modules/url/url.routes');
 const { redirectUrl } = require('./modules/url/redirect.controller');
 const analyticsRoutes = require('./modules/analytics/analytics.routes');
 const { globalLimiter, authLimiter, redirectLimiter } = require('./middlewares/rateLimiter');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('../swagger/swagger.js');
 
 const app = express();
 
@@ -27,6 +29,7 @@ app.use(morgan(config.nodeEnv === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(globalLimiter);
 
 app.get('/health', (req, res) => {
