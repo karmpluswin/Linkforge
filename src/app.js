@@ -10,6 +10,7 @@ const authRoutes = require('./modules/auth/auth.routes');
 const urlRoutes = require('./modules/url/url.routes');
 const { redirectUrl } = require('./modules/url/redirect.controller');
 const analyticsRoutes = require('./modules/analytics/analytics.routes');
+const { globalLimiter, authLimiter, redirectLimiter } = require('./middlewares/rateLimiter');
 
 const app = express();
 
@@ -26,6 +27,8 @@ app.use(morgan(config.nodeEnv === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(globalLimiter);
+
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'ok',
@@ -34,17 +37,11 @@ app.get('/health', (req, res) => {
   });
 });
 
-app.get('/:shortCode', redirectUrl);
+app.get('/:shortCode', redirectLimiter, redirectUrl);
 
-app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/auth', authLimiter, authRoutes);
 app.use('/api/v1/urls', urlRoutes);
 app.use('/api/v1/analytics', analyticsRoutes);
-
-const authenticate = require('./middlewares/authenticate');
-
-app.get('/api/v1/me', authenticate, (req, res) => {
-  res.json({ success: true, user: req.user });
-});
 
 app.use(notFound);
 app.use(errorHandler);
