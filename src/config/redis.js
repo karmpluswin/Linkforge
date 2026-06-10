@@ -1,20 +1,23 @@
 const Redis = require('ioredis');
 const config = require('./env');
 
-const redis = process.env.REDIS_URL
-  ? new Redis(process.env.REDIS_URL, { lazyConnect: true })
-  : new Redis({
-      host: config.redis.host,
-      port: config.redis.port,
-      lazyConnect: true,
-      retryStrategy(times) {
-        if (times > 3) {
-          console.error('Redis max retries reached. Giving up.');
-          return null;
-        }
-        return Math.min(times * 200, 2000);
-      },
-    });
+let redis;
+
+if (process.env.REDIS_URL) {
+  redis = new Redis(process.env.REDIS_URL);
+} else {
+  redis = new Redis({
+    host: config.redis.host,
+    port: config.redis.port,
+    retryStrategy(times) {
+      if (times > 3) {
+        console.error('Redis max retries reached. Giving up.');
+        return null;
+      }
+      return Math.min(times * 200, 2000);
+    },
+  });
+}
 
 redis.on('connect', () => {
   console.log('Redis connected');
@@ -30,7 +33,7 @@ redis.on('close', () => {
 
 const connectRedis = async () => {
   try {
-    await redis.connect();
+    console.log('Redis connection established');
   } catch (error) {
     console.error(`Redis connection failed: ${error.message}`);
   }
