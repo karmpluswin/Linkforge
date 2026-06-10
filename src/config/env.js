@@ -3,8 +3,6 @@ require('dotenv').config();
 const requiredEnvVars = [
   'MONGODB_URI',
   'JWT_SECRET',
-  'REDIS_HOST',
-  'REDIS_PORT',
 ];
 
 const missingVars = requiredEnvVars.filter((key) => !process.env[key]);
