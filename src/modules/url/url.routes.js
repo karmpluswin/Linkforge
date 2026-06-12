@@ -3,6 +3,7 @@ const authenticate = require('../../middlewares/authenticate');
 const { validateCreateUrl, validateUpdateUrl } = require('./url.validation');
 const { createUrl, getMyUrls, getUrlById, updateUrl, deleteUrl } = require('./url.controller');
 const { generateQR } = require('./qr.controller');
+const { createPublicUrl } = require('./url.public.controller');
 
 const router = express.Router();
 
