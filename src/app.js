@@ -19,9 +19,15 @@ const app = express();
 app.use(helmet());
 
 app.use(cors({
-  origin: config.nodeEnv === 'production' ? process.env.ALLOWED_ORIGINS : '*',
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'https://linkforge-fayx.onrender.com',
+    process.env.FRONTEND_URL,
+  ].filter(Boolean),
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
 
 app.use(morgan(config.nodeEnv === 'production' ? 'combined' : 'dev'));
