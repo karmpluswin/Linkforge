@@ -19,9 +19,10 @@ const urlSchema = new mongoose.Schema(
       trim: true,
     },
     customAlias: {
-      type: String,
-      trim: true,
-      sparse: true,
+    type: String,
+    trim: true,
+    unique: true,
+    sparse: true,
     },
     clickCount: {
       type: Number,
