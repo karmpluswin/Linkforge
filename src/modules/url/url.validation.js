@@ -21,7 +21,7 @@ const validate = (schema) => (req, res, next) => {
 
 const createUrlSchema = Joi.object({
   originalUrl: Joi.string().uri().required(),
-  customAlias: Joi.string().alphanum().min(3).max(30).optional(),
+  customAlias: Joi.string().alphanum().min(3).max(30).allow('').optional(),,
   expiresAt: Joi.date().greater('now').optional(),
 });
 
